@@ -76,5 +76,5 @@ def get_phone_links(header,proxy,pages,channel="http://bj.ganji.com/shoujihaoma/
         links = soup.select("a.pn-lbox")
         for link in links:
             phone_link = link.get("href")
-            phNum_list.insert_one({"phone":phone_link})
+            phNum_list.insert_one({"phone_link":phone_link})
             print(phone_link)

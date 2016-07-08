@@ -26,10 +26,10 @@ def get_all_links(channel):
         else:
             get_phone_links(header,ip,num)
     print("所有商品链接已保存成功！")
-    for url in url_list:
+    for url in url_list.find("item_link"):
         ip = random.choice(proxy_lists)
         get_item_info(header,ip,url)
-    for url in phNum_list:
+    for url in phNum_list.find("phone_link"):
         ip = random.choice(proxy_lists)
         get_phone_info(header,ip,url)
 
