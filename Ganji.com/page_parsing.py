@@ -16,10 +16,10 @@ phNum_list = ganji["phNum_list"]    #手机号商品url的表
 phNum_info = ganji["phNum_info"]    #手机号商品信息的表
 
 #spider1爬取非手机号的商品链接
-def get_item_link(channel,pages,who_seller=1):
+def get_item_link(header,proxy,channel,pages,who_seller=1):
     #http://bj.ganji.com/jiaju/a1o119/
     url = "{}a{}o{}".format(channel,str(who_seller),str(pages))
-    web_data = requests.get(url)
+    web_data = requests.get(url,headers=header,proxies=proxy)
     time.sleep(1)
     soup = BeautifulSoup(web_data.text,"lxml")
     next = soup.select("div.pageBox > ul > li > a > span")#此处判断页面是否还有下一页，有的话才抓取
@@ -31,8 +31,8 @@ def get_item_link(channel,pages,who_seller=1):
     else:pass
 
 #spider2爬取手机号商品详情
-def get_phone_info(url):
-    w = requests.get(url)
+def get_phone_info(header,proxy,url):
+    w = requests.get(url,headers=header,proxies=proxy)
     soup = BeautifulSoup(w.text, "lxml")
     title = soup.select("h1.title-name")[0].get_text()
     price = soup.select(" b.f22.fc-orange.f-type")[0].get_text()
@@ -46,8 +46,8 @@ def get_phone_info(url):
     print(data)
 
 #spider3爬取非手机号商品详情页数据
-def get_item_info(url):
-    w = requests.get(url)
+def get_item_info(header,proxy,url):
+    w = requests.get(url,headers=header,proxies=proxy)
     soup = BeautifulSoup(w.text,"lxml")
     title = soup.select("h1.title-name")[0].get_text()
     type = soup.select("ul.det-infor > li > span > a")[0].get_text()
@@ -61,14 +61,14 @@ def get_item_info(url):
         "place":place,
         "new":new
     }
-    #item_info.insert_one(data)
+    item_info.insert_one(data)
     print(data)
 
 #spider4爬取手机号商品链接
-def get_phone_links(pages,channel="http://bj.ganji.com/shoujihaoma/",who_seller=1):
+def get_phone_links(header,proxy,pages,channel="http://bj.ganji.com/shoujihaoma/",who_seller=1):
     #http://bj.ganji.com/shoujihaoma/a1o2/
     url = "{}a{}o{}".format(channel,str(who_seller), str(pages))
-    web_data = requests.get(url)
+    web_data = requests.get(url,headers=header,proxies=proxy)
     time.sleep(1)
     soup = BeautifulSoup(web_data.text, "lxml")
     next = soup.select("div.pageBox > ul > li > a > span")
