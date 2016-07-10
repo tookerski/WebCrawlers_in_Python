@@ -5,21 +5,21 @@
 from bs4 import BeautifulSoup
 import requests
 
-start_url = "http://bj.ganji.com/wu/"
-host_url = "http://bj.ganji.com"
+start_url = "http://bj.ganji.com/wu/"   #定义爬虫起始页面url
+host_url = "http://bj.ganji.com"        #定义类目host，用于组合各类目起始url
 
+#定义获取channel的函数
 def get_channel_urls(url):
     web_data = requests.get(start_url)
+    web_data.encoding = "utf-8"    #经老师指导，编码utf-8，否则页面中文乱码
     soup = BeautifulSoup(web_data.text, "lxml")
     links = soup.select("div.content > div > div > dl > dt > a")
     for link in links:
-        import pdb; pdb.set_trace()
-        print(link.encode("utf8"))
         channel_url = host_url+link.get("href")
-        #print(channel_url)
+        print(channel_url)
 
+#运行函数，并保存获取到的链接
 get_channel_urls(start_url)
-
 channel_list ='''
     http://bj.ganji.com/jiaju/
     http://bj.ganji.com/rirongbaihuo/
